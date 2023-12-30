@@ -1,0 +1,311 @@
+:root {
+    /*colores */
+    --orange: #f7931a;
+    --soft-orange: #ffe9d5;
+    --secondary-blue: #1a9af7;
+    --soft-blue: #e7f5ff;
+    --warm-black: #201e1c;
+    --black: #282623;
+    --grey: #bababa;
+    --off-white: #faf8f7;
+    --just-white: #fff;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    font-size: 62.5%;
+    font-family: "DM Sans", sans-serif;
+  }
+  body {
+    background: linear-gradient(207.8deg, #05275a 16.69%, #105da5 100%);
+  }
+  .container {
+    z-index: 1;
+  }
+  .page {
+    position: relative;
+    min-height: 100vh;
+  }
+  header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-width: 320px; /* el width no se va a hacer más chico de 320px que es la dimensión del display de un mobil */
+    height: 334px;
+    text-align: center;
+  
+  
+    animation: header 3s 1s ease-in-out;
+  }
+  
+  @keyframes header {
+    0% {
+      transform: translateY(-200px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  header img {
+    width: 225px;
+  
+    margin-top: 15px;
+    align-self: center; /*esta línea es para centrar cuando tenemos un contenedor con display flex */
+  }
+  
+  .header-title-cotainer {
+    width: 90%;
+    min-width: 288px;
+    max-width: 900px;
+    height: 218px;
+    margin-top: auto;
+    text-align: center;
+    align-self: center;
+    /* va a utilizar siempre un width del 90% entre 288 y 900px y llegando a los 900 px va a dejar de crecer */
+  }
+  
+  .header-title-cotainer h1  {
+    font-size: 2.4rem; /*24px */
+    font-weight: bold; /*peso o ancho de la fuente */
+    line-height: 2.6rem; /*dimensión entre líneas */
+    color: var(--just-white);
+    margin: 8px;
+  }
+  
+  .header-title-cotainer p {
+    margin-top: 25px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.8rem;
+    color: var(--soft-orange);
+  }
+  
+  .header-title-cotainer .header--button .header--button2 .header--button3 {
+    /*Botón flotante*/
+    position: absolute; /* top, button, left y rigth sólo se pueden usar con position absolute para poder moverse en esas posiciones (en otro position no se va a poder) */
+    left: calc(50% - 118px); /*esto es para centrar el botón */
+    top: 270px;
+    display: block;
+    margin-top: 35px;
+    padding: 15px;
+    width: 229px;
+    height: 48px;
+    background-color: var(--off-white);
+    /* Sombras */
+    box-shadow: 0px 4px 8px rgba(89, 73, 30, 0.16);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--black);
+  
+    animation: headerB 6s 3s ease-in-out;
+  }
+  
+  @keyframes headerB {
+    0% {
+      transform: translateY(-600px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  h2 {
+    margin: 10px;
+    padding: 10px;
+  }
+  a {
+    text-decoration: none;  
+    color: #ffe9d5;
+    padding: 10px;
+    font-weight: 300;
+    font-size: 2.2rem;
+  }
+  .header--button span {
+    /*Titulo del botón*/
+    display: inline-block;
+    width: 5px;
+    height: 15px;
+    /* margin-left: 10px; */
+    background-color: transparent;
+    border: none;
+  
+    /* background-image: url("./assets/down-arrow.svg"); */
+  
+  }
+  
+  
+  .loader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(12, 11, 11);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+  
+    animation: loader 2.5s linear forwards;
+  }
+  
+  .loader div {
+    background-color: #43b887;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 10px;
+  
+    animation: scaling 2s ease-in-out infinite;
+  }
+  
+  @keyframes loader {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+    95% {
+      opacity: 1;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  .loader div:nth-child(1) {
+    /* esto es la sublclase del loader (child) que nos sirve para darle el tiempo de espera a la primera bolita del loader */
+    animation-delay: 0.2s;
+  }
+  
+  .loader div:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  
+  .loader div:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+  
+  @keyframes scaling {
+    /*vamos a poner al principio de 0 a 100% para indicar de qué a qué porcentaje va a hacer función nuestro código  */
+    0%,
+    100% {
+      transform: scale(0.2);
+    }
+    40% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1);
+    }
+  }
+  
+  .visible {
+    display: grid;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  
+  @media (max-width: 640px) {
+    .header--button {
+      padding: 10ox;
+      text-align: center;
+    }
+  
+    a {
+      display: block;
+      text-align: center;
+      padding: 5px;
+      font-weight: 300;
+      font-size: 2.2rem;
+      margin: 5px auto; /* Centro verticalmente y agrego margen */
+      text-align: center; /* Centrar el texto dentro del enlace */
+  }
+    header img {
+        width: 125px;
+      
+        margin-top: 20px;
+        align-self: center; 
+      }
+  
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .header--button {
+      padding: 10ox;
+      text-align: center;
+    }
+  
+    a {
+      display: block;
+      text-align: center;
+      padding: 5px;
+      font-weight: 300;
+      font-size: 2.2rem;
+      margin: 5px auto; /* Centro verticalmente y agrego margen */
+      text-align: center; /* Centrar el texto dentro del enlace */
+  }
+    header img {
+        width: 125px;
+      
+        margin-top: 20px;
+        align-self: center; 
+      }
+  }
+  @media only screen and (max-width: 768px) and (orientation: portrait) {
+    .header--button {
+      padding: 10ox;
+      text-align: center;
+    }
+  
+    a {
+      display: block;
+      text-align: center;
+      padding: 5px;
+      font-weight: 300;
+      font-size: 2.2rem;
+      margin: 5px auto; /* Centro verticalmente y agrego margen */
+      text-align: center; /* Centrar el texto dentro del enlace */
+  }
+    header img {
+        width: 125px;
+      
+        margin-top: 20px;
+        align-self: center; 
+      }
+  }
+  @media only screen and (max-width: 1024px) and (orientation: landscape) {
+    .header--button {
+      padding: 10ox;
+      text-align: center;
+    }
+  
+    a {
+      display: block;
+      text-align: center;
+      padding: 5px;
+      font-weight: 300;
+      font-size: 2.2rem;
+      margin: 5px auto; /* Centro verticalmente y agrego margen */
+      text-align: center; /* Centrar el texto dentro del enlace */
+  }
+    header img {
+        width: 125px;
+      
+        margin-top: 20px;
+        align-self: center; 
+      }
+  }

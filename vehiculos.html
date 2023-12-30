@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehículos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
+    <link rel="stylesheet" href="./vehiulos.css" />
+</head>
+<body>
+    <header>
+        <h1>Vehículos</h1>
+        <!-- <img src="./assets/logo.webp" alt="logo" /> -->
+      </header>
+  
+      <main class="content">
+        <h2>Agregar un vehículo al inventario:</h2>
+        <form id="formularioInventario">
+          <div class="info">
+            <p class="nomnbre">Nombre: <input type="text" id="nombreInput" /></p>
+            <p class="serie">Serie: <input type="text" id="serieInput" /></p>
+            <p class="modelo">
+              Modelo:
+              <input type="text" id="modeloInput" />
+            </p>
+            <p class="tipo">Tipo: <input type="text" id="tipoInput" /></p>
+            <p class="annio">Año: <input type="text" id="annioInput" /></p>
+            <p class="telefono">Teléfono: <input type="text" id="telefonoInput" /></p>
+          </div>
+          <button class="agregar" type="button" onclick="agregar()">
+            Agregar 
+          </button>
+        </form>
+        <button class="quitar" onclick="quitar()">Quitar </button>
+        <h2>Buscar Producto:</h2>
+        <input
+          type="text"
+          id="buscarInput"
+          oninput="filtrar()"
+          placeholder="Buscar "
+        />
+        <div id="inventario">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Serie</th>
+                <th>Modelo</th>
+                <th>Tipo</th>
+                <th>Año</th>
+                <th>Teléfono</th>
+              </tr>
+            </thead>
+            <tbody id="inventarioBody">
+              <!-- Aquí se mostrarán las filas de datos del inventario -->
+            </tbody>
+          </table>
+        </div>
+      </main>
+      <footer>
+        <button class="reiniciar" onclick="reiniciarLista()">Reiniciar Lista</button>
+      </footer>
+  
+      <script src="./vehiculos.js"></script>
+</body>
+</html>
