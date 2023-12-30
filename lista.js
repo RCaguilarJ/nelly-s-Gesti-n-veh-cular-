@@ -1,122 +1,77 @@
-const inventarioVehiculosList = document.querySelector(".inventario-vehiculos-list");
-const inventarioVehiculosForm = document.querySelector(".inventario-vehiculos-form");
-const filterButtonsVehiculos = document.querySelectorAll("[data-filter-vehiculos]");
-const clearButtonsVehiculos = document.querySelectorAll("[data-clear-vehiculos]");
+const shoppingList = document.querySelector(".shopping-list");
+const shoppingForm = document.querySelector(".shopping-form");
+const filterButtons = document.querySelectorAll("[data-filter]");
+const clearButtons = document.querySelectorAll("[data-clear]");
 
-document.addEventListener("DOMContentLoaded", initializeVehiculos);
+document.addEventListener("DOMContentLoaded", initialize);
 
-// Aquí inicia la app de Inventario de Vehículos
+//Aqui inicia la app
 
-function initializeVehiculos() {
-  loadVehiculos();
-  handleDragDropVehiculos();
-  updateNoticeVehiculos();
+function initialize() {
+  loadItems();
+  handleDragDrop();
+  updateNotice();
 
-  inventarioVehiculosForm.addEventListener("submit", handleFormSubmitVehiculos);
+  shoppingForm.addEventListener("submit", handleFormSubmit);
 
-  filterButtonsVehiculos.forEach(function (button) {
-    button.addEventListener("click", handleFilterSelectionVehiculos);
+  filterButtons.forEach(function (button) {
+    button.addEventListener("click", handleFilterSelection);
   });
 
-  clearButtonsVehiculos.forEach(function (button) {
-    button.addEventListener("click", handleClearItemsVehiculos);
+  clearButtons.forEach(function (button) {
+    button.addEventListener("click", handleClearItems);
   });
 }
 
-function saveVehiculos() {
-  const listItems = inventarioVehiculosList.querySelectorAll("li");
+function saveItems() {
+  const listItems = shoppingList.querySelectorAll("li");
 
-  const inventarioVehiculosItems = [];
+  const shoppingItems = [];
   listItems.forEach(function (listItem) {
     const id = listItem.getAttribute("data-id");
-    const nombre = listItem.querySelector(".vehiculo-nombre").textContent;
-    const serie = listItem.querySelector(".vehiculo-serie").textContent;
-    const modelo = listItem.querySelector(".vehiculo-modelo").textContent;
-    const tipo = listItem.querySelector(".vehiculo-tipo").textContent;
-    const anno = listItem.querySelector(".vehiculo-anno").textContent;
-    const telefono = listItem.querySelector(".vehiculo-telefono").textContent;
-    const completado = listItem.hasAttribute("data-completed");
+    const name = listItem.querySelector(".item-name").textContent;
+    const completed = listItem.hasAttribute("data-completed");
 
-    inventarioVehiculosItems.push({ id, nombre, serie, modelo, tipo, anno, telefono, completado });
+    shoppingItems.push({ id, name, completed });
   });
 
-  localStorage.setItem("inventarioVehiculosItems", JSON.stringify(inventarioVehiculosItems));
+  localStorage.setItem("shoppingItems", JSON.stringify(shoppingItems));
 }
 
-function loadVehiculos() {
-  const inventarioVehiculosItems = JSON.parse(localStorage.getItem("inventarioVehiculosItems")) || [];
+function loadItems() {
+  const shoppingItems = JSON.parse(localStorage.getItem("shoppingItems")) || [];
 
-  inventarioVehiculosList.innerHTML = "";
+  shoppingList.innerHTML = "";
 
-  inventarioVehiculosItems.forEach(function (vehiculo) {
-    const li = createVehiculoItem(vehiculo);
+  shoppingItems.forEach(function (shoppingItem) {
+    const li = createListItem(shoppingItem);
 
-    inventarioVehiculosList.appendChild(li);
+    shoppingList.appendChild(li);
   });
 }
 
-function createVehiculoItem(vehiculo) {
-  const { id, nombre, serie, modelo, tipo, anno, telefono, completado } = vehiculo;
+function createListItem(shoppingItem) {
+  const { id, name, completed } = shoppingItem;
 
   // checkbox
   const input = document.createElement("input");
   input.type = "checkbox";
-  input.checked = completado;
-  input.addEventListener("change", toggleCompletedVehiculos);
+  input.checked = completed;
+  input.addEventListener("change", toggleCompleted);
 
-  // vehiculo nombre
-  const divNombre = document.createElement("div");
-  divNombre.textContent = nombre;
-  divNombre.classList.add("vehiculo-nombre");
-  divNombre.addEventListener("click", openEditModeVehiculos);
-  divNombre.addEventListener("blur", closeEditModeVehiculos);
-  divNombre.addEventListener("keydown", handleEnterKeyVehiculos);
-
-  // vehiculo serie
-  const divSerie = document.createElement("div");
-  divSerie.textContent = serie;
-  divSerie.classList.add("vehiculo-serie");
-  divSerie.addEventListener("click", openEditModeVehiculos);
-  divSerie.addEventListener("blur", closeEditModeVehiculos);
-  divSerie.addEventListener("keydown", handleEnterKeyVehiculos);
-
-  // vehiculo modelo
-  const divModelo = document.createElement("div");
-  divModelo.textContent = modelo;
-  divModelo.classList.add("vehiculo-modelo");
-  divModelo.addEventListener("click", openEditModeVehiculos);
-  divModelo.addEventListener("blur", closeEditModeVehiculos);
-  divModelo.addEventListener("keydown", handleEnterKeyVehiculos);
-
-  // vehiculo tipo
-  const divTipo = document.createElement("div");
-  divTipo.textContent = tipo;
-  divTipo.classList.add("vehiculo-tipo");
-  divTipo.addEventListener("click", openEditModeVehiculos);
-  divTipo.addEventListener("blur", closeEditModeVehiculos);
-  divTipo.addEventListener("keydown", handleEnterKeyVehiculos);
-
-  // vehiculo anno
-  const divAnno = document.createElement("div");
-  divAnno.textContent = anno;
-  divAnno.classList.add("vehiculo-anno");
-  divAnno.addEventListener("click", openEditModeVehiculos);
-  divAnno.addEventListener("blur", closeEditModeVehiculos);
-  divAnno.addEventListener("keydown", handleEnterKeyVehiculos);
-
-  // vehiculo telefono
-  const divTelefono = document.createElement("div");
-  divTelefono.textContent = telefono;
-  divTelefono.classList.add("vehiculo-telefono");
-  divTelefono.addEventListener("click", openEditModeVehiculos);
-  divTelefono.addEventListener("blur", closeEditModeVehiculos);
-  divTelefono.addEventListener("keydown", handleEnterKeyVehiculos);
+  // item name
+  const div = document.createElement("div");
+  div.textContent = name;
+  div.classList.add("item-name");
+  div.addEventListener("click", openEditMode);
+  div.addEventListener("blur", closeEditMode);
+  div.addEventListener("keydown", handleEnterKey);
 
   // delete button
   const button = document.createElement("button");
   button.innerHTML = "&times";
   button.classList.add("delete-button");
-  button.addEventListener("click", removeItemVehiculos);
+  button.addEventListener("click", removeItem);
 
   // drag icon
   const span = document.createElement("span");
@@ -126,74 +81,176 @@ function createVehiculoItem(vehiculo) {
   const li = document.createElement("li");
   li.draggable = true;
   li.setAttribute("data-id", id);
-  li.toggleAttribute("data-completed", completado);
+  li.toggleAttribute("data-completed", completed);
 
   li.appendChild(input);
-  li.appendChild(divNombre);
-  li.appendChild(divSerie);
-  li.appendChild(divModelo);
-  li.appendChild(divTipo);
-  li.appendChild(divAnno);
-  li.appendChild(divTelefono);
+  li.appendChild(div);
   li.appendChild(button);
   li.appendChild(span);
 
   return li;
 }
 
-function removeItemVehiculos(e) {
+function removeItem(e) {
   const listItem = e.target.parentNode;
 
-  inventarioVehiculosList.removeChild(listItem);
+  shoppingList.removeChild(listItem);
 
-  updateNoticeVehiculos();
-  saveVehiculos();
+  updateNotice();
+  saveItems();
 }
 
-function addVehiculoItem(vehiculo) {
-  const newListItem = createVehiculoItem({
+function addItem(itemName) {
+  const newListItem = createListItem({
     id: generateUniqueId(),
-    nombre: vehiculo.nombre,
-    serie: vehiculo.serie,
-    modelo: vehiculo.modelo,
-    tipo: vehiculo.tipo,
-    anno: vehiculo.anno,
-    telefono: vehiculo.telefono,
-    completado: false,
+    name: itemName,
+    completed: false,
   });
 
-  inventarioVehiculosList.prepend(newListItem);
+  shoppingList.prepend(newListItem);
 
-  updateFilteredItemsVehiculos();
-  updateNoticeVehiculos();
-  saveVehiculos();
+  updateFilteredItems();
+  updateNotice();
+  saveItems();
 }
 
-function filterItemsVehiculos(filter) {
-  const listItems = inventarioVehiculosList.querySelectorAll("li");
+function filterItems(filter) {
+  const listItems = shoppingList.querySelectorAll("li");
 
   listItems.forEach(function (listItem) {
-    const completado = listItem.hasAttribute("data-completed");
+    const completed = listItem.hasAttribute("data-completed");
 
     if ("completed" === filter) {
-      listItem.style.display = completado ? "flex" : "none";
+      listItem.style.display = completed ? "flex" : "none";
     } else if ("incomplete" === filter) {
-      listItem.style.display = completado ? "none" : "flex";
+      listItem.style.display = completed ? "none" : "flex";
     } else {
       listItem.style.display = "flex";
     }
   });
 }
 
-function toggleCompletedVehiculos(e) {
+function toggleCompleted(e) {
   const listItem = e.target.parentNode;
 
   listItem.toggleAttribute("data-completed", this.checked);
 
-  updateFilteredItemsVehiculos();
-  saveVehiculos();
+  updateFilteredItems();
+  saveItems();
 }
 
-function openEditModeVehiculos(e) {
-  const vehiculoProperty = e.target;
-  const listItem = vehiculoProperty
+function openEditMode(e) {
+  const itemName = e.target;
+  const listItem = itemName.parentNode;
+
+  // disable editing for completed items
+  if (
+    listItem.hasAttribute("data-completed") === false &&
+    itemName.isContentEditable === false
+  ) {
+    itemName.contentEditable = true;
+    listItem.draggable = false;
+
+    // auto focus and move the cursor at the end of line
+    let selection = window.getSelection();
+    selection.selectAllChildren(itemName);
+    selection.collapseToEnd();
+  }
+}
+
+function closeEditMode(e) {
+  const itemName = e.target;
+  const listItem = itemName.parentNode;
+
+  itemName.contentEditable = false;
+  listItem.draggable = true;
+
+  saveItems();
+}
+
+function handleEnterKey(e) {
+  if (e.key === "Enter") {
+    e.preventDefault(); // prevent line breaks
+    closeEditMode(e);
+  }
+}
+
+function handleDragDrop() {
+  let dragItem = null;
+
+  shoppingList.addEventListener("dragstart", function (e) {
+    dragItem = e.target;
+  });
+
+  shoppingList.addEventListener("dragover", function (e) {
+    const targetItem = e.target.closest("li");
+
+    if (targetItem && targetItem !== dragItem) {
+      const targetIndex = [...shoppingList.children].indexOf(targetItem);
+      const dragIndex = [...shoppingList.children].indexOf(dragItem);
+
+      const item =
+        targetIndex > dragIndex ? targetItem.nextSibling : targetItem;
+
+      shoppingList.insertBefore(dragItem, item);
+
+      saveItems();
+    }
+  });
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+
+  const itemName = document.getElementById("item").value;
+  if (itemName.trim().length === 0) {
+    alert("Please enter a valid item name!");
+    return;
+  }
+
+  addItem(itemName);
+
+  this.reset();
+}
+
+function handleFilterSelection(e) {
+  const filter = e.target;
+
+  filterButtons.forEach((btn) => btn.classList.remove("active"));
+
+  filter.classList.add("active");
+
+  filterItems(filter.getAttribute("data-filter"));
+}
+
+function handleClearItems(e) {
+  const clearButton = e.target;
+
+  if ("all" === clearButton.getAttribute("data-clear")) {
+    shoppingList.innerHTML = "";
+  } else {
+    shoppingList
+      .querySelectorAll("li[data-completed]")
+      .forEach((listItem) => listItem.remove());
+  }
+
+  updateNotice();
+  saveItems();
+}
+
+function updateFilteredItems() {
+  const activeFilter = document.querySelector(".active[data-filter]");
+
+  filterItems(activeFilter.getAttribute("data-filter"));
+}
+
+function updateNotice() {
+  const isListEmpty = shoppingList.querySelectorAll("li").length === 0;
+
+  const notice = document.querySelector(".shopping-notice");
+  notice.classList.toggle("show", isListEmpty);
+}
+
+function generateUniqueId() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
