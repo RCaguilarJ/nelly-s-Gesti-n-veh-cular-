@@ -5,7 +5,7 @@ const clearButtons = document.querySelectorAll("[data-clear]");
 
 document.addEventListener("DOMContentLoaded", initialize);
 
-//Aqui inicia la app
+// Aquí inicia la app
 
 function initialize() {
   loadItems();
